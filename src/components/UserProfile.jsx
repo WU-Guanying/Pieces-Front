@@ -114,6 +114,7 @@ const UserProfile = () => {
     
             } catch (error) {
                 console.error("Failed to refresh URL:", error);
+                console.log("Failed to refresh URL:",error?.message)
             }
         }, 55 * 60 * 1000); // 55 分钟后执行（避免 1 小时过期）
     
@@ -124,33 +125,86 @@ const UserProfile = () => {
         }));
     };
 
-    const deleteAudioFiles = async () => {
-        try {
-            await Promise.all(
-                Object.values(audioMap).map(async ({ path }) => {
-                    console.log("Deleting file:", path); // ✅ Debug 确保 path 正确
-                    const response = await fetch(`${API_URL}/users/delete-audio`, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ file_path: path }),
-                    });
-                    const data = await response.json();
-                    console.log("Delete Response:", data);
-                    return data;
-                })
-            );
-        } catch (error) {
-            console.error("Failed to delete audio files:", error);
-        }
+    // const deleteAudioFiles = async () => {
+    //     try {
+    //         // Promise.allSettled()
+    //         // 等待所有 Promise 任务（无论是成功还是失败）完成后，返回一个包含每个任务状态的数组。
+    //         // 返回的数组每一项都是 { status: 'fulfilled' | 'rejected', value | reason }。
+    //         const deletionResults = await Promise.allSettled(
+    //             Object.values(audioMap).map(async ({ path }) => {
+    //                 console.log("Attempting to delete file:", path);
+    
+    //                 const response = await fetch(`${API_URL}/users/delete-audio`, {
+    //                     method: "POST",
+    //                     headers: { "Content-Type": "application/json" },
+    //                     body: JSON.stringify({ file_path: path }),
+    //                 });
+    
+    //                 if (!response.ok) {
+    //                     throw new Error(`Failed to delete file: ${response.statusText}`);
+    //                 }
+    
+    //                 const data = await response.json();
+    //                 console.log("Delete successful:", data);
+    //                 return data;
+    //             })
+    //         );
+    
+    //         // 处理每个异步任务的状态
+    //         deletionResults.forEach((result, index) => {
+    //             if (result.status === "rejected") {
+    //                 console.error(`Failed to delete file #${index}:`, result.reason);
+    //             }
+    //         });
+    //     } catch (error) {
+    //         console.error("Failed to delete audio files:", error);
+    //     }
+    // };
+    
+
+    // // 页面卸载时清除 OSS 音频 & 清理定时器
+    // useEffect(() => {
+    //     return () => {
+    //         if (Object.keys(audioMap).length > 0) {
+    //             console.log("Audio files exist, attempting to delete...");
+    //             Object.values(intervals).forEach(clearInterval);
+    //             (async () => {
+    //                 await deleteAudioFiles();
+    //                 console.log("Audio files deletion complete.");
+    //             })();
+    //         }
+    //     };
+    // }, [audioMap]);
+    const audioMapRef = useRef(audioMap);
+    useEffect(() => {
+        audioMapRef.current = audioMap;  // 确保实时更新
+    }, [audioMap]); 
+
+    const deleteAudioSync = () => {
+        Object.values(audioMapRef.current).forEach(({ path }) => {
+            console.log("AUDIO PATH",path)
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", `${API_URL}/users/delete-audio`, false);  // 第三个参数 false 使请求同步
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(JSON.stringify({ file_path: path }));
+    
+            if (xhr.status === 200) {
+                console.log("删除成功:", JSON.parse(xhr.responseText));
+            } else {
+                console.error("删除失败:", xhr.statusText);
+            }
+        });
     };
 
-    // 页面卸载时清除 OSS 音频 & 清理定时器
     useEffect(() => {
+    
         return () => {
-            Object.values(intervals).forEach(clearInterval);
-            deleteAudioFiles();
+            console.log('DELETING AUDIO...')
+            console.log('卸载audiomap',audioMapRef.current)
+            deleteAudioSync();
         };
     }, []);
+    
 
     // 批量上传 ################
 
@@ -672,7 +726,8 @@ const UserProfile = () => {
         const refreshImageUrls = async () => {
             const updatedMessages = await Promise.all(
                 messages.map(async (msg) => {
-                    if ((msg.type && msg.type === "image") || (tab === "Image" && msg.role === 'ai')) {
+                    console.log("userprofile refresh:",msg,msg.path)
+                    if ((msg.type && msg.type === "image") || (tab === "Image" && msg.role === 'ai' && msg.path)) {
                         try {
                             const response = await axios.get(`${API_URL}/users/refresh-url`, {
                                 params: { path: msg.path }, // 发送 path 到后端
@@ -708,7 +763,7 @@ const UserProfile = () => {
             <div className="absolute inset-0 min-h-screen w-full bg-gradient-to-br from-red-200/50 via-white to-red-200/50 animate-pulse -z-10"></div>
             <Header></Header>
             {/* 选择任务模式 */}
-            <div className="relative">
+            <div className="relative z-10">
                 <button
                 onClick={()=>setIsOpen(!isOpen)}
                 className="absolute left-1/2 top-full -translate-x-1/2">
@@ -719,7 +774,7 @@ const UserProfile = () => {
                 <motion.div
                 animate={{ maxHeight: isOpen ? "4rem" : "0rem", opacity: isOpen ? 1 : 0 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="absolute left-1/2 top-full mt-6 -translate-x-1/2 w-52 flex justify-center space-x-4 p-2 bg-white shadow-lg rounded-full overflow-hidden"
+                className="absolute left-1/2 top-full mt-6 -translate-x-1/2 w-52 flex justify-center space-x-4 p-2 bg-white shadow-lg rounded-full bg-opacity-30 overflow-hidden"
                 >
                 {["Text", "Image", "Audio"].map((item) => (
                     <button

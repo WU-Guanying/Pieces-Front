@@ -40,11 +40,11 @@ export default function Header() {
 
     useEffect(() => {
         // 确保 tempourl 变化时更新 imageSrc
-        if (tempourl) {
+        if (tempourl && user?.picture !== '/assets/avatar/default_avatar.jpg') {
             setImageSrc(tempourl);
         } else {
             // setImageSrc(`${API_URL}/${user.picture}?t=${new Date().getTime()}`);
-            setImageSrc('uploads/avatar/default_avatar.jpg')
+            setImageSrc('/assets/avatar/default_avatar.jpg')
         }
     }, [tempourl, user.picture]); // 依赖项数组：tempourl 变化或首次渲染时运行
     

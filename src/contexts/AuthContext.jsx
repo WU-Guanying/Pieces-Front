@@ -62,6 +62,7 @@ const AuthProvider = ({ children }) => {
     // let tempourl;
     const refreshImageUrls = async () => {
         if (!user?.picture) return;
+        if (user.picture === '/assets/avatar/default_avatar.jpg') return;
             try {
                 const response = await axios.get(`${API_URL}/users/me/refresh-url-header`, {
                     params: { path: user.picture }, // 发送 path 到后端
