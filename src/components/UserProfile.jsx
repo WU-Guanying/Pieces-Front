@@ -776,7 +776,7 @@ const UserProfile = () => {
                 transition={{ duration: 0.3, ease: "easeInOut" }}
                 className="absolute left-1/2 top-full mt-6 -translate-x-1/2 w-52 flex justify-center space-x-4 p-2 bg-white shadow-lg rounded-full bg-opacity-30 overflow-hidden"
                 >
-                {["Text", "Image", "Audio"].map((item) => (
+                {["Text", "Image"].map((item) => (
                     <button
                     key={item}
                     onClick={() => {
