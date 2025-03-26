@@ -248,7 +248,7 @@ const UserProfile = () => {
             if (response.data.length > 0){
                 setSelectedFiles(response.data)
                 // 使用 Promise.all() 来等待所有文件的 tempourl 转换成 objectURL。
-
+                console.log("handleFileUpload:",response.data)
                 newMessages = response.data.map((item) => ({
                     role: 'user',
                     text: item.filename,
