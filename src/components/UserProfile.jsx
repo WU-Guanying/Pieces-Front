@@ -774,7 +774,7 @@ const UserProfile = () => {
                 <motion.div
                 animate={{ maxHeight: isOpen ? "4rem" : "0rem", opacity: isOpen ? 1 : 0 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="absolute left-1/2 top-full mt-6 -translate-x-1/2 w-52 flex justify-center space-x-4 p-2 bg-white shadow-lg rounded-full bg-opacity-30 overflow-hidden"
+                className="absolute left-1/2 top-full mt-6 -translate-x-1/2 w-36 flex justify-center space-x-4 p-2 bg-white shadow-lg rounded-full bg-opacity-30 overflow-hidden"
                 >
                 {["Text", "Image"].map((item) => (
                     <button
