@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // const API_URL = 'http://localhost:8000';
-const API_URL = 'https://120.27.248.119';
+const API_URL = 'https://pieces-for-mommy.com';
 
 const loginUser = async (credentials) => {
     try {
