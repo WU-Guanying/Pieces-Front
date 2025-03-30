@@ -223,6 +223,7 @@ const UserProfile = () => {
 
     const handleFileUpload = async (files) => {
         if(files.length === 0){
+            console.log("file length < 0")
             return;
         }
         const formData = new FormData();
