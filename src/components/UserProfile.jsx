@@ -927,7 +927,7 @@ const UserProfile = () => {
                                         style={{
                                             left: `${Math.random() * 90}%`, 
                                             animationDelay: `${Math.random()}s`,
-                                            top: `${Math.random() * 100}%`,
+                                            top: `${Math.random() * -100}px`,
                                         }}
                                     />
                                 ))}
