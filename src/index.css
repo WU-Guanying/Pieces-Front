@@ -147,3 +147,46 @@ h3,
   }
 }
 
+/* 纸屑 */
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) translateX(var(--drift-x)) rotate(360deg);
+    opacity: 0.7;
+  }
+}
+
+@keyframes confetti-float {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(var(--float-x));
+  }
+}
+
+@keyframes confetti-rotate {
+  0% {
+    rotate: 0deg;
+  }
+  100% {
+    rotate: 360deg;
+  }
+}
+
+.confetti {
+  width: 6px;
+  height: 10px;
+  opacity: 0.9;
+  border-radius: 2px;
+  position: absolute;
+  animation:
+    confetti-fall var(--fall-duration, 3s) linear infinite,
+    confetti-float 2s ease-in-out infinite,
+    confetti-rotate 3s linear infinite;
+  will-change: transform;
+}

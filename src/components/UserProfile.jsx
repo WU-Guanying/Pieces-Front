@@ -916,7 +916,7 @@ const UserProfile = () => {
                                 {/* pointer-events-none 防止这些纸屑元素阻塞其他可点击的元素（如按钮），即使它们存在于页面的上方 */}
                                 {/* animate-[confetti-fall_2s_linear_infinite] 使用了你定义的 confetti-fall 动画，并且设置了动画的持续时间为 2 秒（2s），以及使用了 linear 缓动函数，使得纸屑下落的速度均匀。
                                 infinite 表示动画将会循环执行，使得纸屑不断地掉落。 */}
-                                {[...Array(60)].map((_, i) => (
+                                {/* {[...Array(60)].map((_, i) => (
                                     <div
                                         key={i}
                                         className={`absolute
@@ -929,7 +929,28 @@ const UserProfile = () => {
                                             top: `${Math.random() * 100}%`,
                                         }}
                                     />
-                                ))}
+                                ))} */}
+                                {[...Array(60)].map((_, i) => {
+                                const floatX = `${Math.random() * 20 - 10}px`; // 左右漂
+                                const driftX = `${Math.random() * 100 - 50}px`; // 最终偏移
+                                const fallDuration = `${2 + Math.random() * 2}s`; // 2s ~ 4s
+
+                                return (
+                                    <div
+                                    key={i}
+                                    className={`confetti ${getRandomShape()} ${getRandomColor()}`}
+                                    style={{
+                                        left: `${Math.random() * 90}%`,
+                                        top: `${Math.random() * 100}px`,
+                                        animationDelay: `${Math.random() * 2}s`,
+                                        '--float-x': floatX,
+                                        '--drift-x': driftX,
+                                        '--fall-duration': fallDuration,
+                                    }}
+                                    />
+                                );
+                                })}
+
                             </div>
                         )}
                         {/* Y 轴向上移动 10 像素，使纸屑一开始就出现在视口上方 */}
