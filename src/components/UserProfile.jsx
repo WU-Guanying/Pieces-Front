@@ -922,7 +922,8 @@ const UserProfile = () => {
                                         className={`absolute
                                                     ${getRandomShape()} 
                                                     ${getRandomColor()} 
-                                                    animate-[confetti-fall_2s_linear_infinite]`}
+                                                    // animate-[confetti-fall_2s_linear_infinite]
+                                                    `}
                                         style={{
                                             left: `${Math.random() * 90}%`, 
                                             animationDelay: `${Math.random()}s`,
