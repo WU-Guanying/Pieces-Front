@@ -941,7 +941,7 @@ const UserProfile = () => {
                                     className={`confetti ${getRandomShape()} ${getRandomColor()}`}
                                     style={{
                                         left: `${Math.random() * 90}%`,
-                                        top: `${Math.random() * 100}%`,
+                                        top: `${Math.random() * -100}px`,
                                         animationDelay: `${Math.random() * 2}s`,
                                         '--float-x': floatX,
                                         '--drift-x': driftX,
