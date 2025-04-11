@@ -99,10 +99,13 @@ function getRandomColor() {
   // 🎨 随机形状函数
 function getRandomShape() {
     const shapes = [
-      "w-2 h-2 rounded-full",               // 圆形
-      "w-3 h-3 bg-red-500 transform rotate-45", // 正方形
-      "w-0 h-0 border-l-3 border-b-3 border-transparent border-t-3 border-r-3", // 三角形
-      "w-3 h-3 bg-yellow-500 transform rotate-45 skew-x-12" // 不规则形状（通过 skew 倾斜）
+      "w-2 h-2 rounded-full",
+      "w-1 h-1 rounded-full",                // 圆形
+      "w-2 h-2 bg-red-500 transform rotate-45", // 正方形
+      "w-1 h-2 bg-red-500 transform rotate-45",
+      "w-3 h-1 bg-red-500 transform rotate-45",
+      "w-0 h-0 border-l-2 border-b-2 border-transparent border-t-2 border-r-2", // 三角形
+      "w-2 h-2 bg-yellow-500 transform rotate-45 skew-x-12"
     ];
     return shapes[Math.floor(Math.random() * shapes.length)];
   }

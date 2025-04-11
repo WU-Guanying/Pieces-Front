@@ -98,3 +98,30 @@ h3,
     width: 100%;
   }
 }
+
+@keyframes waveBackground {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.wave-bg {
+  background: 
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), transparent 40%),
+    linear-gradient(
+      270deg,
+      rgba(147, 197, 253, 0) 0%,
+      rgba(147, 197, 253, 0.4) 50%,
+      rgba(147, 197, 253, 0) 100%
+    );
+  background-size: 400% 100%;
+  animation: waveBackground 3s ease-in-out infinite;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px); /* for Safari */
+}
