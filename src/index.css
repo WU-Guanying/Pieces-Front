@@ -111,6 +111,7 @@ h3,
   }
 }
 
+/* 默认波浪动画背景（不含滤镜） */
 .wave-bg {
   background: 
     radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), transparent 40%),
@@ -122,6 +123,27 @@ h3,
     );
   background-size: 400% 100%;
   animation: waveBackground 3s ease-in-out infinite;
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px); /* for Safari */
+  will-change: background-position;
+  transform: translateZ(0); /* 强制 GPU 合成，提高移动端兼容性 */
 }
+
+/* 支持 backdrop-filter 的浏览器使用模糊效果 */
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .wave-bg {
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+  }
+}
+
+/* 不支持 backdrop-filter 的 fallback（仅使用半透明底色） */
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .wave-bg {
+    background: linear-gradient(
+      270deg,
+      rgba(147, 197, 253, 0) 0%,
+      rgba(147, 197, 253, 0.4) 50%,
+      rgba(147, 197, 253, 0) 100%
+    );
+  }
+}
+
