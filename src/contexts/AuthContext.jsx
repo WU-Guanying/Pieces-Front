@@ -46,7 +46,7 @@ const AuthProvider = ({ children }) => {
         catch (error){
             if (error.response) {
                 // Axios response error, could handle specific status codes here
-                console.error("Response error:", error.response.data);
+                console.error("Response error:", error.response.data.detail);
               } else if (error.request) {
                 // Axios request error
                 console.error("Request error:", error.request);
@@ -115,3 +115,33 @@ const AuthProvider = ({ children }) => {
 };
 
 export {AuthProvider, AuthContext}
+
+// ...
+// catch (error) {
+//     // Axios wraps the error response from backend here:
+//     if (error.response) {
+//         // 后端返回了响应码，且不是 2xx
+//         console.error("HTTP Error:", error.response.status);
+//         console.error("Error detail:", error.response.data.detail);
+
+//         // 你可以把这个错误显示在页面上
+//         throw new Error(error.response.data.detail);
+//         // {
+//         //     name: "Error",
+//         //     message: "Could not validate credentials"
+//         //   }
+//     } else if (error.request) {
+//         console.error("No response received:", error.request);
+//         throw new Error("No response from server.");
+//     } else {
+//         console.error("Error creating request:", error.message);
+//         throw new Error("Unexpected error.");
+//     }
+// }
+
+// try {
+//     const user = await loginUser({ username, password });
+//     // 登录成功，跳转或保存token
+// } catch (error) {
+//     setErrorMessage(error.message);  // 显示错误提示在页面上
+// }
